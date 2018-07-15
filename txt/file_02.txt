@@ -1,0 +1,30 @@
+1.如何遍历目录
+	String[] list();
+			返回一个字符串数组，这些字符串指定此抽象路径名表示的目录中的文件和目录
+	File[] listFiles();
+			返回一个抽象路径名数组，这些路径名表示此抽象路径名表示的目录文件中的文件
+			
+	File file = new File("C:/Windows");
+	//打印当前目录下的所有文件，包括子目录以及子目录的子目录等等
+	public void listFile(File file){
+		if(!file.isDirectory()){
+			System.out.println(file.getPath());
+		}
+		File[] files = file.listFiles();
+		if(files == null){
+			System.out.println(file.getPath());
+		}else{
+			for(File varFile : files){
+				listFile(varFile);//递归调用
+			}
+		}
+	}	
+	
+2.过滤文件,下面的只能过滤当前层级的文件，如果想实现当前目录及其子目录等，则需要自己通过地归的方式编写方法实现
+	File[] listFiles(FileFilter filter);
+			返回抽象路径名数组，这些路径名表示次抽象路径名表示的目录中满足指定过滤器的文件和目录
+	File[] listFiles(FilenameFilter filter);
+			返回抽象路径名数组，这些路径名表示次抽象路径名表示的目录中满足指定过滤器的文件和目录
+	String[] listFiles(FilenameFilter filter);
+			返回一个字符串数组，这些路径名表示次抽象路径名表示的目录中满足指定过滤器的文件和目录
+	

@@ -1,0 +1,67 @@
+1.路径分隔符
+	windows：使用  \
+	unix:使用 /
+	注：在java中，\ 是转义字符，如果要表示一个 \ 字符 ，则必须转义(\\)
+2.相对路径和绝对路径
+	1)绝对路径
+		c:/a/b/c.txt
+	2)相对路径
+		b/c.txt
+	注：两个特殊符号
+		.	表示当前目录
+		..	表示上级目录
+3.文件路径的抽象		->		java.io.File
+	1)三个构造器
+		File(String pathname)	-> 直接传入一个路径
+		
+		File(String parent,String child)	->	传入父目录和文件字符串路径
+		
+		File(File parent,String child)		->	传入父目录File对象和文件字符串路径
+	2)获取相对路径的API
+		a)获取系统的所有盘符
+			File[] files = File.listRoots();
+		b)获取文件表示的路径
+			String path = file.getPath();
+			String absoultePath = file.getAsolutePath();//返回绝对路径
+			String canonicalPath = file.getCanonicalPath();//返回规范路径
+		c)获取父路径
+			String path = file.getParent();//返回一个字符串路径
+			File parent = file.getParentFile();//返回一个对象
+	3)判断文件是否存在
+		file.exists();
+4.创建目录
+	1)首先创建一个File抽象路径对象 file
+		File file = new File("resources/config");
+	2)调用 file对象的 mkdir()方法或者mkdirs()方法
+		mkdir()方法仅仅创建当前层级的目录，用于父目录存在的目录下创建文件
+		mkdirs()方法创建路径中所有不存在的目录
+	这两个方法都会返回一个boolean类型表示创建成功与否
+5.创建文件
+	1)首先创建一个File抽象路径对象 file
+		File file = new File("resources/jdbc.properties");
+	2)执行file对象的createNewFile()方法即可
+		注:如果此路径的父目录存在，则会创建成功，否则失败	
+	public void createNewFile() throws Exception{
+		File file = new File(file);
+		if(file.exists())
+			return;
+		File parent = file.getParentFile();
+		if(!parent.exists()){
+			parent.mkdirs();
+		}
+		file.createNewFile();
+	}
+6.删除文件
+	1)首先创建一个File抽象路径对象 file
+		File file = new File("resources/jdbc.properties");
+	2)判断文件是否存在
+		存在
+			调用 file.delete();
+7.重命名文件
+	1)首先创建一个File抽象路径对象 file
+		File file = new File("resources/jdbc.properties");
+	2)判断文件是否存在
+		存在
+			a) 以重命名的路径创建一个目标对象
+				File target = new File("resources/config.properties");
+			b) 调用 file.renameTo(target);
